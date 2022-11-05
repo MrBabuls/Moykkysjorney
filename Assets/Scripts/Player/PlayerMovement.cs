@@ -61,7 +61,11 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             numberOfJump = 0;
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            if (!playerRB)
+            {
+                return;
+            }
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             numberOfJump++;
             AudioManager.instance.Play("FirstJump");
         }
@@ -69,7 +73,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if(numberOfJump == 1)
             {
-                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+                if (!playerRB)
+                {
+                    return;
+                }
+                    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
                 numberOfJump++;
                 AudioManager.instance.Play("SecondJump");
             }

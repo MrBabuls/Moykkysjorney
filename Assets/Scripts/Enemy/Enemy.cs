@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();    
+        animator = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     {
         if (hit.collider != false)
         {
-            if(isFacingRight)
+            if (isFacingRight)
             {
                 rb.velocity = new Vector2(speed, rb.velocity.y);
             }
@@ -42,21 +42,6 @@ public class Enemy : MonoBehaviour
             isFacingRight = !isFacingRight;
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             animator.SetFloat("speed", Mathf.Abs(transform.localScale.x));
-        }
-    }
-
-    private void Die()
-    {
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.transform.tag == "Player")
-        {
-            Debug.Log("kukkuu neekeri");
-                gameObject.SetActive(false);
-            
         }
     }
 }
