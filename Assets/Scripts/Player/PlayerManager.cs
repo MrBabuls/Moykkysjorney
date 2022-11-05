@@ -7,14 +7,17 @@ using TMPro;
 public class PlayerManager : MonoBehaviour
 {
     public static bool isGameOver;
-    public GameObject gameOverScreen;
+    public static bool Winner;
     public static int numberOffCoins;
-    public TextMeshProUGUI coinsText;
+    public GameObject gameOverScreen;
+    public GameObject WinnerScreen;
     public GameObject pauseMenuScreen;
+    public TextMeshProUGUI coinsText;
 
     private void Awake()
     {
         isGameOver = false;
+        Winner = false;
     }
 
     void Update()
@@ -23,6 +26,10 @@ public class PlayerManager : MonoBehaviour
         if (isGameOver)
         {
             gameOverScreen.SetActive(true);
+        }
+        else if (Winner)
+        {
+            WinnerScreen.SetActive(true);
         }
     }
 

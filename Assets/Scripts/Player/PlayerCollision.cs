@@ -34,10 +34,6 @@ public class PlayerCollision : MonoBehaviour
                 StartCoroutine(GetHurt());
             }
         }
-        if (collision.transform.tag == "Chest")
-        {
-            Debug.Log("Won!");
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,6 +51,12 @@ public class PlayerCollision : MonoBehaviour
                 StartCoroutine(KillEnemy(enemy.gameObject));
             }
 
+        }
+
+        if (collision.gameObject.tag == "Chest")
+        {
+            collision.gameObject.GetComponent<Animator>().SetBool("Open", true);
+            PlayerManager.Winner = true;
         }
     }
 
