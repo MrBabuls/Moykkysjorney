@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    public ParticleSystem dust;
     public float speed = 400;
     public float jumpForce = 5;
     public Transform groundCheck;
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Flip()
     {
+        CreateDust();
         isFacingRight = !isFacingRight;
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
     }
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
+            CreateDust();
             numberOfJump = 0;
             if (!playerRB)
             {
@@ -83,5 +85,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+    }
+    void CreateDust()
+    {
+        dust.Play();
     }
 }

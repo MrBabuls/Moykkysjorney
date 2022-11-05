@@ -25,8 +25,6 @@ public class MenuEvents : MonoBehaviour
 
     public void LoadLevel(int index)
     {
-        DontDestroyOnLoad(gameObject);
-        panel.SetActive(false);
         SceneManager.LoadScene(index);
     }   
 

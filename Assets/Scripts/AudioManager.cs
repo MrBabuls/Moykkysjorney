@@ -1,7 +1,5 @@
-using Newtonsoft.Json.Linq;
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -21,14 +19,13 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        //Volumevalue gets in menuevents class volume slider value
-        var volumeValue = GameObject.FindObjectOfType<MenuEvents>().volumeSlider.value;
 
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
-            s.source.volume = volumeValue;
+            s.source.outputAudioMixerGroup = s.mixer;
+            s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }

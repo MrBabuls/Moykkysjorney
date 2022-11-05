@@ -1,18 +1,19 @@
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
+    public CinemachineVirtualCamera camera;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == "Enemy")
         {
             HealthManager.health--;
-            if(HealthManager.health <= 0)
+            AudioManager.instance.Play("PlayerDeath");
+            if (HealthManager.health <= 0)
             {
-                PlayerManager.isGameOver = true;
-                AudioManager.instance.Play("GameOver");
-                gameObject.SetActive(false);
+                PlayerDeathEffect();
             }
             else
             {
@@ -23,17 +24,30 @@ public class PlayerCollision : MonoBehaviour
         if (collision.gameObject.tag == "blueEnemy")
         {
             HealthManager.health--;
+            AudioManager.instance.Play("PlayerDeath");
             if (HealthManager.health <= 0)
             {
-                PlayerManager.isGameOver = true;
-                AudioManager.instance.Play("GameOver");
-                gameObject.SetActive(false);
+                PlayerDeathEffect();
             }
             else
             {
                 StartCoroutine(GetHurt());
             }
         }
+    }
+
+    private void PlayerDeathEffect()
+    {
+        camera.Follow = null;
+        this.gameObject.GetComponent<SpriteRenderer>().flipY = true;
+        this.gameObject.GetComponent<Collider2D>().enabled = false;
+        Vector3 movement = new Vector3(Random.Range(40, 70), Random.Range(-40, 40), 0f);
+        this.gameObject.transform.position += movement * Time.deltaTime;
+        this.gameObject.GetComponent<Rigidbody2D>().gravityScale = 4;
+
+        PlayerManager.isGameOver = true;
+        AudioManager.instance.Play("GameOver");
+        StartCoroutine(KillEnemy(gameObject));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,6 +62,7 @@ public class PlayerCollision : MonoBehaviour
                 Vector3 movement = new Vector3(Random.Range(40, 70), Random.Range(-40, 40), 0f);
                 enemy.transform.position += movement * Time.deltaTime;
                 enemy.GetComponent<Rigidbody2D>().gravityScale = 4;
+                AudioManager.instance.Play("EnemyDeath");
                 StartCoroutine(KillEnemy(enemy.gameObject));
             }
 
@@ -57,6 +72,7 @@ public class PlayerCollision : MonoBehaviour
         {
             collision.gameObject.GetComponent<Animator>().SetBool("Open", true);
             PlayerManager.Winner = true;
+            AudioManager.instance.Play("Win");
         }
     }
 
