@@ -34,9 +34,17 @@ public class PlayerCollision : MonoBehaviour
                 StartCoroutine(GetHurt());
             }
         }
+
+        if (collision.gameObject.tag == "KillZone")
+        {
+            HealthManager.health -= HealthManager.health;
+            AudioManager.instance.Play("PlayerDeath");
+                PlayerDeathEffect();
+            
+        }
     }
 
-    private void PlayerDeathEffect()
+    public void PlayerDeathEffect()
     {
         camera.Follow = null;
         this.gameObject.GetComponent<SpriteRenderer>().flipY = true;
